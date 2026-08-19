@@ -1,0 +1,10 @@
+- insert:
+    - id: mac-control
+      name: dsh-mac-control
+      config:
+        browsers:
+          - Safari
+          - Google Chrome
+        screenshotDirectory: ~/.dsh/mac-control/screenshots
+        requireApproval: false
+        maxUiItems: 120
