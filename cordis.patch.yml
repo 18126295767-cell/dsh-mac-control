@@ -6,5 +6,5 @@
           - Safari
           - Google Chrome
         screenshotDirectory: ~/.dsh/mac-control/screenshots
-        requireApproval: false
+        requireApproval: true
         maxUiItems: 120
