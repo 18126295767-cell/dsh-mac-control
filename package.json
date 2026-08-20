@@ -35,6 +35,7 @@
     "README.md",
     "TUTORIAL.md",
     "TUTORIAL.zh-CN.md",
+    "docs",
     "LICENSE"
   ],
   "dsh": {

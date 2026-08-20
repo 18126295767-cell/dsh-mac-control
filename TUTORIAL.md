@@ -67,6 +67,11 @@ node node_modules/@deepseek-ai/dsh/lib/bin.js web --port 3080
 
 Open `http://127.0.0.1:3080`. Configure the model provider in the runtime's own settings or environment, never in this repository.
 
+The clean official Web host should look like this before adding a workspace,
+account, or credential:
+
+![Official DSH Web host before configuration](docs/images/macos-dsh-home.png)
+
 ### First verification and permissions
 
 Ask Harness to call the read-only tools first:
@@ -95,6 +100,10 @@ cd /absolute/path/to/deepseek-harness-macos-app
 zsh ./scripts/build-app.sh --dsh-runtime /absolute/path/to/dsh-runtime --install
 open "$HOME/Applications/DeepSeek Harness.app"
 ```
+
+Path B displays the same local `web` profile in a native macOS window:
+
+![Independent native macOS shell](docs/images/macos-app-home.png)
 
 For an already installed app, inspect its actual runtime rather than guessing:
 

@@ -5,6 +5,12 @@ import { apply, name } from '../lib/index.js'
 
 const packageJson = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'))
 
+async function pngDimensions(relativePath) {
+  const bytes = await readFile(new URL(relativePath, import.meta.url))
+  assert.deepEqual([...bytes.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10])
+  return { width: bytes.readUInt32BE(16), height: bytes.readUInt32BE(20) }
+}
+
 function loadPlugin(config = {}) {
   const registered = []
   const events = []
@@ -82,4 +88,22 @@ test('uses host-provided DSH core packages instead of bundling a second runtime'
 
   assert.deepEqual(bundledCorePackages, [])
   assert.equal(packageJson.peerDependencies['@deepseek-ai/dsh-tools'], '>=0.1.0-rc.6 <0.2.0')
+})
+
+test('ships lossless host screenshots used by every primary guide', async () => {
+  assert.deepEqual(
+    await pngDimensions('../docs/images/macos-dsh-home.png'),
+    { width: 1600, height: 900 },
+  )
+  assert.deepEqual(
+    await pngDimensions('../docs/images/macos-app-home.png'),
+    { width: 1281, height: 768 },
+  )
+
+  for (const guide of ['README.md', 'TUTORIAL.md', 'TUTORIAL.zh-CN.md']) {
+    const contents = await readFile(new URL(`../${guide}`, import.meta.url), 'utf8')
+    assert.match(contents, /docs\/images\/macos-dsh-home\.png/, guide)
+    assert.match(contents, /docs\/images\/macos-app-home\.png/, guide)
+  }
+  assert.ok(packageJson.files.includes('docs'))
 })

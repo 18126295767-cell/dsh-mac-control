@@ -20,6 +20,22 @@
   <a href="#繁體中文">繁體中文</a>
 </p>
 
+## Host UI / 宿主界面
+
+Official DSH Web runtime in an empty, isolated local session / 官方 DSH Web
+runtime 的隔离空白会话：
+
+![Official DeepSeek Harness Web runtime](docs/images/macos-dsh-home.png)
+
+The same `web` profile inside the independent native macOS shell / 同一个
+`web` profile 显示在独立原生 macOS 外壳中：
+
+![DeepSeek Harness native macOS shell](docs/images/macos-app-home.png)
+
+These lossless PNGs show the two supported host paths, not a fabricated plugin
+result. Tool registration is verified with `--dump-config` and `npm test`.
+[Image provenance and privacy record](docs/images/README.md).
+
 <details open>
 <summary id="简体中文"><strong>简体中文</strong></summary>
 

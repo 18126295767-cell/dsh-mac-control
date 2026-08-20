@@ -67,6 +67,10 @@ node node_modules/@deepseek-ai/dsh/lib/bin.js web --port 3080
 
 打开 `http://127.0.0.1:3080`。在 runtime 自己的设置界面或环境中配置模型提供方；不要把凭据写进本仓库。
 
+在加入工作区、账号或凭据之前，干净的官方 Web 宿主应显示为：
+
+![配置前的 DeepSeek 官方 DSH Web 宿主](docs/images/macos-dsh-home.png)
+
 ### 首次验证与权限
 
 先要求 Harness 调用只读工具：
@@ -95,6 +99,10 @@ cd /absolute/path/to/deepseek-harness-macos-app
 zsh ./scripts/build-app.sh --dsh-runtime /absolute/path/to/dsh-runtime --install
 open "$HOME/Applications/DeepSeek Harness.app"
 ```
+
+路径 B 会在原生 macOS 窗口中显示同一个本地 `web` profile：
+
+![独立原生 macOS 外壳](docs/images/macos-app-home.png)
 
 已安装 App 时，核对它实际使用的 runtime，不要猜测：
 
