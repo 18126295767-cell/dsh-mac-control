@@ -1,6 +1,9 @@
 import assert from 'node:assert/strict'
+import { readFile } from 'node:fs/promises'
 import test from 'node:test'
 import { apply, name } from '../lib/index.js'
+
+const packageJson = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'))
 
 function loadPlugin(config = {}) {
   const registered = []
@@ -71,4 +74,12 @@ test('allows read-only browser and desktop actions without an approval prompt', 
     await approval({ name: 'mac_desktop', arguments: { action: 'frontmost_app' } }, allow),
     { kind: 'allow' },
   )
+})
+
+test('uses host-provided DSH core packages instead of bundling a second runtime', () => {
+  const bundledCorePackages = Object.keys(packageJson.dependencies ?? {})
+    .filter(packageName => packageName.startsWith('@deepseek-ai/dsh-'))
+
+  assert.deepEqual(bundledCorePackages, [])
+  assert.equal(packageJson.peerDependencies['@deepseek-ai/dsh-tools'], '>=0.1.0-rc.6 <0.2.0')
 })

@@ -1,6 +1,6 @@
 {
   "name": "dsh-mac-control",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Local browser and macOS desktop controls for DeepSeek Harness",
   "license": "MIT",
   "type": "module",
@@ -42,7 +42,10 @@
       "patch": "./cordis.patch.yml"
     }
   },
-  "dependencies": {
-    "@deepseek-ai/dsh-tools": "0.1.0-rc.7"
+  "peerDependencies": {
+    "@deepseek-ai/dsh-tools": ">=0.1.0-rc.6 <0.2.0"
+  },
+  "devDependencies": {
+    "@deepseek-ai/dsh-tools": "0.1.0-rc.6"
   }
 }
