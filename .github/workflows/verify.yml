@@ -1,0 +1,59 @@
+name: Verify DSH macOS Control Plugin
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  unit-and-package:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Run unit tests
+        run: npm test
+
+      - name: Verify npm package contents
+        run: npm pack --dry-run --json
+
+  official-dsh-profile:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install the official DSH runtime
+        run: |
+          mkdir -p "$RUNNER_TEMP/dsh-runtime"
+          cd "$RUNNER_TEMP/dsh-runtime"
+          npm init -y
+          npm install --save-exact @deepseek-ai/dsh@0.1.0-rc.7
+
+      - name: Install and compose the plugin in an isolated Web profile
+        env:
+          DSH_HOME: ${{ runner.temp }}/dsh-home
+        run: |
+          DSH_BIN="$RUNNER_TEMP/dsh-runtime/node_modules/@deepseek-ai/dsh/lib/bin.js"
+          node "$DSH_BIN" plugin --profile web add "$GITHUB_WORKSPACE"
+          node "$DSH_BIN" --profile web --dump-config > "$RUNNER_TEMP/dsh-config.yml"
+          grep -F -- "- id: mac-control" "$RUNNER_TEMP/dsh-config.yml"
+          grep -F -- "name: dsh-mac-control" "$RUNNER_TEMP/dsh-config.yml"
