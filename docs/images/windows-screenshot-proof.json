@@ -1,0 +1,54 @@
+{
+  "capturedAt": "2026-08-21T08:35:03.142Z",
+  "source": "GitHub Actions Windows runner",
+  "platform": "win32",
+  "release": "10.0.26100",
+  "architecture": "x64",
+  "runnerLabel": "windows-2025",
+  "runnerImage": "win25-vs2026",
+  "commit": "a46c7279cf742c4fa82d3291016cc6fc66f445f1",
+  "baseUrl": "http://127.0.0.1:3080/",
+  "viewport": {
+    "width": 1600,
+    "height": 1000
+  },
+  "browserProfile": "fresh non-persistent Playwright context",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/140.0.7339.16 Safari/537.36",
+  "screenshots": [
+    {
+      "file": "windows-01-developer-preview.png",
+      "width": 1600,
+      "height": 1000,
+      "bytes": 83896,
+      "sha256": "654600d8acf83ae594d030182bdb542ea0c856074051771727c26460776679a7"
+    },
+    {
+      "file": "windows-02-api-key-onboarding.png",
+      "width": 1600,
+      "height": 1000,
+      "bytes": 76084,
+      "sha256": "9f18a256695951ccd5a2c53931a3f1beb56f54546f32bec97684426d8c14ff1d"
+    },
+    {
+      "file": "windows-03-empty-workspace.png",
+      "width": 1600,
+      "height": 1000,
+      "bytes": 75655,
+      "sha256": "7ae5f0587f09bfd75b6f586bdd2309b05f80a4a824ae664a9f1b051f67d46825"
+    },
+    {
+      "file": "windows-04-model-settings.png",
+      "width": 1600,
+      "height": 1000,
+      "bytes": 71515,
+      "sha256": "c29b6e50e3ddaff41eedb44890ef051a03bc70a504c0249451cd5bf109e47980"
+    },
+    {
+      "file": "windows-05-plugin-inventory.png",
+      "width": 1600,
+      "height": 1000,
+      "bytes": 99426,
+      "sha256": "e5fbc24b1715e3bd509b476cc99e907d7fcd8ac3aba589dd907867b4c8006351"
+    }
+  ]
+}

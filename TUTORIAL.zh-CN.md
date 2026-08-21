@@ -218,7 +218,7 @@ macOS 专用的：它们调用 `osascript`、Apple Automation、辅助功能和�
 安装到 Windows profile 后期待这些工具可用。
 
 Windows 桌面启动器请使用配套项目
-[deepseek-harness-macos-app/windows](https://github.com/18126295767-cell/deepseek-harness-macos-app/tree/main/windows)。
+[deepseek-harness-macos-app/windows](https://github.com/18126295767-cell/deepseek-harness-macos-app/tree/codex/windows-release-candidate/windows)。
 它启动官方 Web runtime，并生成便携 ZIP、NSIS 当前用户安装包和 SHA-256 校验清单。在
 Windows 10/11 x64 上执行：
 
@@ -231,6 +231,23 @@ Set-Location windows
 环境脚本通过 `winget` 安装 Git、Node.js LTS 和 NSIS，然后在 `$HOME\dsh-runtime` 创建
 `@deepseek-ai/dsh@0.1.0-rc.7`。它不会安装凭据、profile 或本 macOS 专用插件。安装器改变
 `PATH` 后请重新打开 PowerShell。
+
+下面的官方宿主界面来自真实 `windows-2025` Runner 上全新、非持久化的浏览器上下文，
+并已通过 SHA-256 核对、本地 OCR 隐私扫描和逐张视觉检查：
+
+![Windows 上的 DeepSeek 官方开发者预览提示](docs/images/windows-01-developer-preview.png)
+
+![Windows 上 API Key 为空的 DeepSeek 官方引导界面](docs/images/windows-02-api-key-onboarding.png)
+
+![Windows 上的 DeepSeek 官方空工作区](docs/images/windows-03-empty-workspace.png)
+
+![Windows 上 API Key 为空的 DeepSeek 官方模型设置](docs/images/windows-04-model-settings.png)
+
+![Windows 上的 DeepSeek 官方插件清单](docs/images/windows-05-plugin-inventory.png)
+
+[Runner 证明](docs/images/windows-screenshot-proof.json)记录了 Windows 架构、Runner
+标签与镜像、来源提交、尺寸、字节数和哈希。这些图片只证明 Windows 宿主路径，不表示
+本 macOS Automation 插件能在 Windows 运行。
 
 Windows 启动器日志位于 `%LOCALAPPDATA%\DeepSeek Harness\logs`；卸载时会保留独立管理的
 DSH runtime/profile。未来的 Windows 原生浏览器/桌面控制插件必须单独审阅和安装，不能从

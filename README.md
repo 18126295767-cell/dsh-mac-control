@@ -223,23 +223,40 @@ macOS, Node.js 20+, Git और pnpm आवश्यक हैं। `--dump-conf
 Windows can run the official DSH Web runtime, but this package's `mac_browser`
 and `mac_desktop` tools are macOS-only. The Windows launcher, environment
 bootstrap, portable ZIP, NSIS installer, and SHA-256 manifest live in the
-[companion package](https://github.com/18126295767-cell/deepseek-harness-macos-app/tree/main/windows).
+[companion package](https://github.com/18126295767-cell/deepseek-harness-macos-app/tree/codex/windows-release-candidate/windows).
 It does not pretend to provide macOS Automation or Accessibility controls on
 Windows. The full setup is in [TUTORIAL.md](TUTORIAL.md) and
 [TUTORIAL.zh-CN.md](TUTORIAL.zh-CN.md).
 
+The official Web runtime was verified on a real `windows-2025` runner with a
+fresh, empty browser profile / 官方 Web runtime 已在真实 `windows-2025` Runner
+的全新空白浏览器 profile 中验证：
+
+![Official DSH empty workspace on Windows](docs/images/windows-03-empty-workspace.png)
+
+The official settings UI exposes the host plugin inventory; this image does
+not claim that the macOS-only `dsh-mac-control` plugin runs on Windows / 官方
+设置界面会显示宿主插件清单；此图不表示仅适用于 macOS 的 `dsh-mac-control` 能在
+Windows 运行：
+
+![Official DSH plugin inventory on Windows](docs/images/windows-05-plugin-inventory.png)
+
+The [image record](docs/images/README.md) includes runner provenance, hashes,
+OCR privacy scanning, and visual review / [图片记录](docs/images/README.md)包含
+Runner 来源、哈希、OCR 隐私扫描和逐张目检结果。
+
 | Language | Windows boundary and package link |
 | --- | --- |
-| 日本語 | Windows は公式 DSH Web runtime を実行できますが、`mac_browser` と `mac_desktop` は macOS 専用です。[Windows companion](https://github.com/18126295767-cell/deepseek-harness-macos-app/tree/main/windows) に bootstrap、portable ZIP、NSIS、SHA-256 があります。 |
-| 한국어 | Windows에서는 공식 DSH Web runtime만 실행할 수 있고 `mac_browser`와 `mac_desktop`은 macOS 전용입니다. [Windows companion](https://github.com/18126295767-cell/deepseek-harness-macos-app/tree/main/windows)에 bootstrap, portable ZIP, NSIS, SHA-256이 있습니다. |
-| Español | Windows puede ejecutar el runtime Web oficial, pero `mac_browser` y `mac_desktop` son exclusivos de macOS. El [paquete Windows](https://github.com/18126295767-cell/deepseek-harness-macos-app/tree/main/windows) incluye bootstrap, ZIP portable, NSIS y SHA-256. |
-| Français | Windows peut lancer le runtime Web officiel, mais `mac_browser` et `mac_desktop` restent réservés à macOS. Le [package Windows](https://github.com/18126295767-cell/deepseek-harness-macos-app/tree/main/windows) fournit bootstrap, ZIP portable, NSIS et SHA-256. |
-| Deutsch | Windows kann die offizielle DSH-Web-Runtime starten, aber `mac_browser` und `mac_desktop` sind macOS-only. Das [Windows-Paket](https://github.com/18126295767-cell/deepseek-harness-macos-app/tree/main/windows) enthält Bootstrap, portable ZIP, NSIS und SHA-256. |
-| Português | O Windows pode executar o runtime Web oficial, mas `mac_browser` e `mac_desktop` são exclusivos do macOS. O [pacote Windows](https://github.com/18126295767-cell/deepseek-harness-macos-app/tree/main/windows) fornece bootstrap, ZIP portátil, NSIS e SHA-256. |
-| Русский | Windows запускает официальный DSH Web runtime, но `mac_browser` и `mac_desktop` предназначены только для macOS. [Пакет Windows](https://github.com/18126295767-cell/deepseek-harness-macos-app/tree/main/windows) содержит bootstrap, portable ZIP, NSIS и SHA-256. |
-| العربية | يمكن لـ Windows تشغيل runtime الويب الرسمي، لكن `mac_browser` و`mac_desktop` مخصصان لـ macOS فقط. يوفّر [Windows companion](https://github.com/18126295767-cell/deepseek-harness-macos-app/tree/main/windows) bootstrap وZIP محمولًا وNSIS وSHA-256. |
-| हिन्दी | Windows official DSH Web runtime चला सकता है, लेकिन `mac_browser` और `mac_desktop` केवल macOS के लिए हैं। [Windows companion](https://github.com/18126295767-cell/deepseek-harness-macos-app/tree/main/windows) में bootstrap, portable ZIP, NSIS और SHA-256 है। |
-| 繁體中文 | Windows 可執行官方 DSH Web runtime，但 `mac_browser` 與 `mac_desktop` 僅支援 macOS。[Windows 配套包](https://github.com/18126295767-cell/deepseek-harness-macos-app/tree/main/windows) 提供環境引導、portable ZIP、NSIS 與 SHA-256。 |
+| 日本語 | Windows は公式 DSH Web runtime を実行できますが、`mac_browser` と `mac_desktop` は macOS 専用です。[Windows companion](https://github.com/18126295767-cell/deepseek-harness-macos-app/tree/codex/windows-release-candidate/windows) に bootstrap、portable ZIP、NSIS、SHA-256 があります。 |
+| 한국어 | Windows에서는 공식 DSH Web runtime만 실행할 수 있고 `mac_browser`와 `mac_desktop`은 macOS 전용입니다. [Windows companion](https://github.com/18126295767-cell/deepseek-harness-macos-app/tree/codex/windows-release-candidate/windows)에 bootstrap, portable ZIP, NSIS, SHA-256이 있습니다. |
+| Español | Windows puede ejecutar el runtime Web oficial, pero `mac_browser` y `mac_desktop` son exclusivos de macOS. El [paquete Windows](https://github.com/18126295767-cell/deepseek-harness-macos-app/tree/codex/windows-release-candidate/windows) incluye bootstrap, ZIP portable, NSIS y SHA-256. |
+| Français | Windows peut lancer le runtime Web officiel, mais `mac_browser` et `mac_desktop` restent réservés à macOS. Le [package Windows](https://github.com/18126295767-cell/deepseek-harness-macos-app/tree/codex/windows-release-candidate/windows) fournit bootstrap, ZIP portable, NSIS et SHA-256. |
+| Deutsch | Windows kann die offizielle DSH-Web-Runtime starten, aber `mac_browser` und `mac_desktop` sind macOS-only. Das [Windows-Paket](https://github.com/18126295767-cell/deepseek-harness-macos-app/tree/codex/windows-release-candidate/windows) enthält Bootstrap, portable ZIP, NSIS und SHA-256. |
+| Português | O Windows pode executar o runtime Web oficial, mas `mac_browser` e `mac_desktop` são exclusivos do macOS. O [pacote Windows](https://github.com/18126295767-cell/deepseek-harness-macos-app/tree/codex/windows-release-candidate/windows) fornece bootstrap, ZIP portátil, NSIS e SHA-256. |
+| Русский | Windows запускает официальный DSH Web runtime, но `mac_browser` и `mac_desktop` предназначены только для macOS. [Пакет Windows](https://github.com/18126295767-cell/deepseek-harness-macos-app/tree/codex/windows-release-candidate/windows) содержит bootstrap, portable ZIP, NSIS и SHA-256. |
+| العربية | يمكن لـ Windows تشغيل runtime الويب الرسمي، لكن `mac_browser` و`mac_desktop` مخصصان لـ macOS فقط. يوفّر [Windows companion](https://github.com/18126295767-cell/deepseek-harness-macos-app/tree/codex/windows-release-candidate/windows) bootstrap وZIP محمولًا وNSIS وSHA-256. |
+| हिन्दी | Windows official DSH Web runtime चला सकता है, लेकिन `mac_browser` और `mac_desktop` केवल macOS के लिए हैं। [Windows companion](https://github.com/18126295767-cell/deepseek-harness-macos-app/tree/codex/windows-release-candidate/windows) में bootstrap, portable ZIP, NSIS और SHA-256 है। |
+| 繁體中文 | Windows 可執行官方 DSH Web runtime，但 `mac_browser` 與 `mac_desktop` 僅支援 macOS。[Windows 配套包](https://github.com/18126295767-cell/deepseek-harness-macos-app/tree/codex/windows-release-candidate/windows) 提供環境引導、portable ZIP、NSIS 與 SHA-256。 |
 
 ## License
 

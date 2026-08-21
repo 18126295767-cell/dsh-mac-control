@@ -220,7 +220,7 @@ Automation, Accessibility, and Screen Recording. Do not install this package
 into a Windows profile expecting those tools to work.
 
 For a Windows desktop launcher, use the companion package in
-[deepseek-harness-macos-app/windows](https://github.com/18126295767-cell/deepseek-harness-macos-app/tree/main/windows).
+[deepseek-harness-macos-app/windows](https://github.com/18126295767-cell/deepseek-harness-macos-app/tree/codex/windows-release-candidate/windows).
 It starts the official Web runtime and produces a portable ZIP, an NSIS
 per-user installer, and a SHA-256 manifest. On Windows 10/11 x64:
 
@@ -234,6 +234,25 @@ The bootstrap uses `winget` to install Git, Node.js LTS, and NSIS, then creates
 `$HOME\dsh-runtime` with `@deepseek-ai/dsh@0.1.0-rc.7`. It does not install
 credentials, profiles, or this macOS-only plugin. Reopen PowerShell after a
 tool installer changes `PATH`.
+
+The following official host screens came from a fresh, non-persistent browser
+context on a real `windows-2025` Runner. They passed SHA-256 verification, a
+local OCR privacy scan, and manual visual review:
+
+![Official DSH developer-preview notice on Windows](docs/images/windows-01-developer-preview.png)
+
+![Official DSH API-key onboarding with a blank field on Windows](docs/images/windows-02-api-key-onboarding.png)
+
+![Official DSH empty workspace on Windows](docs/images/windows-03-empty-workspace.png)
+
+![Official DSH model settings with a blank API-key field on Windows](docs/images/windows-04-model-settings.png)
+
+![Official DSH plugin inventory on Windows](docs/images/windows-05-plugin-inventory.png)
+
+The [runner proof](docs/images/windows-screenshot-proof.json) records the
+Windows architecture, runner label/image, source commit, dimensions, byte
+sizes, and hashes. These images prove the Windows host path only; they do not
+claim that this macOS Automation plugin works on Windows.
 
 The Windows launcher logs to `%LOCALAPPDATA%\DeepSeek Harness\logs` and leaves
 the DSH runtime/profile untouched when uninstalled. A future Windows-native

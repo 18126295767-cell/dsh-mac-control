@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict'
+import { createHash } from 'node:crypto'
 import { readFile } from 'node:fs/promises'
 import test from 'node:test'
 import { apply, name } from '../lib/index.js'
@@ -9,6 +10,11 @@ async function pngDimensions(relativePath) {
   const bytes = await readFile(new URL(relativePath, import.meta.url))
   assert.deepEqual([...bytes.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10])
   return { width: bytes.readUInt32BE(16), height: bytes.readUInt32BE(20) }
+}
+
+async function pngSha256(relativePath) {
+  const bytes = await readFile(new URL(relativePath, import.meta.url))
+  return createHash('sha256').update(bytes).digest('hex')
 }
 
 function loadPlugin(config = {}) {
@@ -106,6 +112,45 @@ test('ships lossless host screenshots used by every primary guide', async () => 
     assert.match(contents, /docs\/images\/macos-app-home\.png/, guide)
   }
   assert.ok(packageJson.files.includes('docs'))
+})
+
+test('ships reviewed Windows host screenshots with matching proof and guide links', async () => {
+  const expected = new Map([
+    ['windows-01-developer-preview.png', '654600d8acf83ae594d030182bdb542ea0c856074051771727c26460776679a7'],
+    ['windows-02-api-key-onboarding.png', '9f18a256695951ccd5a2c53931a3f1beb56f54546f32bec97684426d8c14ff1d'],
+    ['windows-03-empty-workspace.png', '7ae5f0587f09bfd75b6f586bdd2309b05f80a4a824ae664a9f1b051f67d46825'],
+    ['windows-04-model-settings.png', 'c29b6e50e3ddaff41eedb44890ef051a03bc70a504c0249451cd5bf109e47980'],
+    ['windows-05-plugin-inventory.png', 'e5fbc24b1715e3bd509b476cc99e907d7fcd8ac3aba589dd907867b4c8006351'],
+  ])
+  const proof = JSON.parse(await readFile(
+    new URL('../docs/images/windows-screenshot-proof.json', import.meta.url),
+    'utf8',
+  ))
+
+  assert.equal(proof.platform, 'win32')
+  assert.equal(proof.architecture, 'x64')
+  assert.equal(proof.runnerLabel, 'windows-2025')
+  assert.equal(proof.runnerImage, 'win25-vs2026')
+  assert.equal(proof.commit, 'a46c7279cf742c4fa82d3291016cc6fc66f445f1')
+  assert.equal(proof.browserProfile, 'fresh non-persistent Playwright context')
+  assert.equal(proof.screenshots.length, expected.size)
+
+  for (const [file, hash] of expected) {
+    assert.deepEqual(await pngDimensions(`../docs/images/${file}`), { width: 1600, height: 1000 }, file)
+    assert.equal(await pngSha256(`../docs/images/${file}`), hash, file)
+    const record = proof.screenshots.find(item => item.file === file)
+    assert.equal(record?.sha256, hash, file)
+    assert.equal(record?.width, 1600, file)
+    assert.equal(record?.height, 1000, file)
+  }
+
+  const readme = await readFile(new URL('../README.md', import.meta.url), 'utf8')
+  assert.match(readme, /docs\/images\/windows-03-empty-workspace\.png/)
+  assert.match(readme, /docs\/images\/windows-05-plugin-inventory\.png/)
+  for (const guide of ['TUTORIAL.md', 'TUTORIAL.zh-CN.md']) {
+    const contents = await readFile(new URL(`../${guide}`, import.meta.url), 'utf8')
+    for (const file of expected.keys()) assert.match(contents, new RegExp(`docs/images/${file}`), guide)
+  }
 })
 
 test('documents pnpm workspace-root handling for official DSH profiles', async () => {
