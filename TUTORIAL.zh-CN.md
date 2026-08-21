@@ -39,11 +39,11 @@ npm install @deepseek-ai/dsh@0.1.0-rc.7
 从 runtime 目录安装插件到官方 Web profile：
 
 ```sh
-node node_modules/@deepseek-ai/dsh/lib/bin.js plugin --profile web add \
+node node_modules/@deepseek-ai/dsh/lib/bin.js plugin --profile web add --workspace-root \
   "https://github.com/18126295767-cell/dsh-mac-control/archive/<reviewed-commit-sha>.tar.gz"
 ```
 
-请把 `<reviewed-commit-sha>` 替换成你在 GitHub 上已经审阅过的完整提交哈希。本项目目前没有发布到 npm，因此 `plugin add dsh-mac-control` 不是有效的可复现安装命令。
+请把 `<reviewed-commit-sha>` 替换成你在 GitHub 上已经审阅过的完整提交哈希。官方 DSH profile 本身是 pnpm workspace，所以必须保留 `--workspace-root`。本项目目前没有发布到 npm，因此 `plugin add dsh-mac-control` 不是有效的可复现安装命令。
 
 检查 DSH 是否识别 bundle，而不启动服务：
 
@@ -179,7 +179,7 @@ npm pack --dry-run --json
 
 ```sh
 node /absolute/path/to/dsh-runtime/node_modules/@deepseek-ai/dsh/lib/bin.js \
-  plugin --profile mac-control-test add .
+  plugin --profile mac-control-test add --workspace-root .
 node /absolute/path/to/dsh-runtime/node_modules/@deepseek-ai/dsh/lib/bin.js \
   --profile mac-control-test --dump-config
 ```
@@ -198,7 +198,7 @@ rm -rf "$HOME/.dsh/profiles/mac-control-test"
 
 ```sh
 node /absolute/path/to/dsh-runtime/node_modules/@deepseek-ai/dsh/lib/bin.js \
-  plugin --profile web remove dsh-mac-control
+  plugin --profile web remove --workspace-root dsh-mac-control
 ```
 
 随后运行 `--profile web --dump-config` 确认插件已经移除。已有截图仍保存在 `~/.dsh/mac-control/screenshots`，请先检查内容，再按文件删除。

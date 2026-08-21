@@ -107,3 +107,17 @@ test('ships lossless host screenshots used by every primary guide', async () => 
   }
   assert.ok(packageJson.files.includes('docs'))
 })
+
+test('documents pnpm workspace-root handling for official DSH profiles', async () => {
+  const workflow = await readFile(new URL('../.github/workflows/verify.yml', import.meta.url), 'utf8')
+  assert.match(workflow, /plugin --profile web add --workspace-root \"\$GITHUB_WORKSPACE\"/)
+
+  for (const guide of ['README.md', 'TUTORIAL.md', 'TUTORIAL.zh-CN.md']) {
+    const contents = await readFile(new URL(`../${guide}`, import.meta.url), 'utf8')
+    assert.match(
+      contents,
+      /plugin --profile web add --workspace-root \\/,
+      `${guide} must preserve the flag required by the official DSH profile workspace`,
+    )
+  }
+})

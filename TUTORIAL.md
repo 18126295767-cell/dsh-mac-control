@@ -39,11 +39,11 @@ npm install @deepseek-ai/dsh@0.1.0-rc.7
 Install this plugin into the official Web profile:
 
 ```sh
-node node_modules/@deepseek-ai/dsh/lib/bin.js plugin --profile web add \
+node node_modules/@deepseek-ai/dsh/lib/bin.js plugin --profile web add --workspace-root \
   "https://github.com/18126295767-cell/dsh-mac-control/archive/<reviewed-commit-sha>.tar.gz"
 ```
 
-Replace `<reviewed-commit-sha>` with the full commit hash shown on the GitHub commit you reviewed. This repository is not published to npm, so `plugin add dsh-mac-control` is not a valid reproducible install command.
+Replace `<reviewed-commit-sha>` with the full commit hash shown on the GitHub commit you reviewed. `--workspace-root` is required because an official DSH profile is itself a pnpm workspace. This repository is not published to npm, so `plugin add dsh-mac-control` is not a valid reproducible install command.
 
 Verify bundle recognition without starting a service:
 
@@ -180,7 +180,7 @@ Link the checkout to a temporary profile:
 
 ```sh
 node /absolute/path/to/dsh-runtime/node_modules/@deepseek-ai/dsh/lib/bin.js \
-  plugin --profile mac-control-test add .
+  plugin --profile mac-control-test add --workspace-root .
 node /absolute/path/to/dsh-runtime/node_modules/@deepseek-ai/dsh/lib/bin.js \
   --profile mac-control-test --dump-config
 ```
@@ -199,7 +199,7 @@ Remove the plugin only from the profile where it was installed:
 
 ```sh
 node /absolute/path/to/dsh-runtime/node_modules/@deepseek-ai/dsh/lib/bin.js \
-  plugin --profile web remove dsh-mac-control
+  plugin --profile web remove --workspace-root dsh-mac-control
 ```
 
 Confirm removal with `--profile web --dump-config`. Existing screenshots remain under `~/.dsh/mac-control/screenshots`; review them before deleting individual files.
