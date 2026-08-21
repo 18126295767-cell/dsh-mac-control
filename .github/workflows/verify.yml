@@ -43,6 +43,7 @@ jobs:
 
       - name: Install the official DSH runtime
         run: |
+          npm install --global pnpm@9.15.9
           mkdir -p "$RUNNER_TEMP/dsh-runtime"
           cd "$RUNNER_TEMP/dsh-runtime"
           npm init -y
