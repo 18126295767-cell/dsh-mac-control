@@ -54,7 +54,7 @@ jobs:
           DSH_HOME: ${{ runner.temp }}/dsh-home
         run: |
           DSH_BIN="$RUNNER_TEMP/dsh-runtime/node_modules/@deepseek-ai/dsh/lib/bin.js"
-          node "$DSH_BIN" plugin --profile web add "$GITHUB_WORKSPACE"
+          node "$DSH_BIN" plugin --profile web add --workspace-root "$GITHUB_WORKSPACE"
           node "$DSH_BIN" --profile web --dump-config > "$RUNNER_TEMP/dsh-config.yml"
           grep -F -- "- id: mac-control" "$RUNNER_TEMP/dsh-config.yml"
           grep -F -- "name: dsh-mac-control" "$RUNNER_TEMP/dsh-config.yml"
