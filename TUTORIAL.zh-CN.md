@@ -9,6 +9,16 @@
 
 `deepseek-harness-ultimate` 是一个独立的社区维护扩展 profile，可选择使用，但不是 DeepSeek 官方发行，也不会自动替代本教程中的 `web` profile。
 
+仓库附带一个 20 秒、本机 localhost 专用的演示录屏。它使用隔离的 Chrome profile 和脱敏离线 fixture，不读取当前 Chrome/Safari 标签页，不包含账号、Cookie、Token 或私人页面：
+
+![20 秒本地控制演示](docs/demo/dsh-mac-control-20s.gif)
+
+教程同时保留三张原生分辨率静态图，分别对应读取标签页、点击安全按钮和截图：
+
+![读取标签页](docs/demo/dsh-mac-control-tabs-read.png)
+![点击安全按钮](docs/demo/dsh-mac-control-button-clicked.png)
+![截图已保存](docs/demo/dsh-mac-control-screenshot.png)
+
 ## 0. 前置条件
 
 - macOS；本插件会调用 Safari、Google Chrome、`osascript`、辅助功能和截图 API。
@@ -43,7 +53,13 @@ node node_modules/@deepseek-ai/dsh/lib/bin.js plugin --profile web add --workspa
   "https://github.com/18126295767-cell/dsh-mac-control/archive/<reviewed-commit-sha>.tar.gz"
 ```
 
-请把 `<reviewed-commit-sha>` 替换成你在 GitHub 上已经审阅过的完整提交哈希。官方 DSH profile 本身是 pnpm workspace，所以必须保留 `--workspace-root`。本项目目前没有发布到 npm，因此 `plugin add dsh-mac-control` 不是有效的可复现安装命令。
+请把 `<reviewed-commit-sha>` 替换成你在 GitHub 上已经审阅过的完整提交哈希。官方 DSH profile 本身是 pnpm workspace，所以必须保留 `--workspace-root`。如果使用 npm 分发，可先固定安装：
+
+```sh
+npm install --save-exact dsh-mac-control@0.1.0
+```
+
+需要审阅源码时，仍建议使用上面的 commit archive 路径。
 
 检查 DSH 是否识别 bundle，而不启动服务：
 

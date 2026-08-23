@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DSH Mac Control Demo</title>
+  <style>
+    :root { color-scheme: dark; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-width: 900px; min-height: 620px; background: #0d1117; color: #f0f6fc; }
+    main { width: 900px; margin: 0 auto; padding: 56px 64px; }
+    .eyebrow { color: #58a6ff; font-size: 14px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+    h1 { margin: 12px 0 8px; font-size: 42px; letter-spacing: -.02em; }
+    .lede { margin: 0 0 28px; color: #8b949e; font-size: 18px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .card { border: 1px solid #30363d; border-radius: 12px; background: #161b22; padding: 20px; min-height: 145px; }
+    .label { color: #8b949e; font-size: 13px; text-transform: uppercase; letter-spacing: .08em; }
+    .value { margin-top: 12px; font-size: 20px; font-weight: 650; }
+    .value.ok { color: #3fb950; }
+    .value.active { color: #d29922; }
+    #action { width: 100%; margin-top: 24px; border: 0; border-radius: 8px; padding: 17px 20px; background: #238636; color: white; font-size: 18px; font-weight: 700; }
+    #action.done { background: #1f6f37; }
+    #action:focus { outline: 3px solid #58a6ff; outline-offset: 3px; }
+    #events { margin-top: 24px; padding: 16px; min-height: 124px; border-left: 3px solid #30363d; color: #8b949e; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 14px; line-height: 1.7; white-space: pre-line; }
+    .footer { margin-top: 28px; color: #6e7681; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="eyebrow">DeepSeek Harness · dsh-mac-control</div>
+    <h1>Local Mac control, with approval gates.</h1>
+    <p class="lede">A clean-room demonstration using a temporary browser profile and a local-only page.</p>
+    <section class="grid" aria-label="Demo status">
+      <article class="card"><div class="label">Browser</div><div id="browser" class="value active">Waiting for tab read</div></article>
+      <article class="card"><div class="label">Desktop</div><div id="desktop" class="value active">Waiting for app control</div></article>
+      <article class="card"><div class="label">Screenshot</div><div id="shot" class="value active">Not captured</div></article>
+      <article class="card"><div class="label">Credentials</div><div class="value ok">Never accepted</div></article>
+    </section>
+    <button id="action" type="button">Click this safe demo button</button>
+    <div id="events" role="log" aria-live="polite">[ready] Waiting for the verified tool sequence...</div>
+    <div class="footer">Only loopback HTTP is used. The page contains no account, token, cookie, or private content.</div>
+  </main>
+  <script>
+    const params = new URLSearchParams(location.search)
+    const state = {
+      browser: params.get('browser') || 'Waiting for tab read',
+      desktop: params.get('desktop') || 'Waiting for app control',
+      shot: params.get('shot') || 'Not captured',
+      events: params.getAll('event').length ? params.getAll('event') : ['[ready] Waiting for the verified tool sequence...'],
+    }
+    const render = () => {
+      for (const key of ['browser', 'desktop', 'shot']) document.getElementById(key).textContent = state[key]
+      document.getElementById('events').textContent = state.events.join('\n')
+    }
+    const add = event => { state.events.push(event); render() }
+    document.getElementById('action').addEventListener('click', () => {
+      state.desktop = 'Button clicked'
+      add('[mac_desktop] click -> approved demo button')
+    })
+    window.demo = {
+      browserRead(value) { state.browser = value; add('[mac_browser] list_tabs -> ' + value) },
+      appSwitch(value) { state.desktop = value; add('[mac_desktop] activate -> ' + value) },
+      screenshot(value) { state.shot = value; add('[mac_desktop] screenshot -> ' + value) },
+    }
+    if (state.events.some(event => event.includes('click'))) {
+      document.getElementById('action').textContent = 'Safe demo button clicked'
+      document.getElementById('action').classList.add('done')
+    }
+    render()
+  </script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 {
   "name": "dsh-mac-control",
-  "version": "0.1.2",
+  "version": "0.1.0",
   "description": "Local browser and macOS desktop controls for DeepSeek Harness",
   "license": "MIT",
   "type": "module",
@@ -16,13 +16,22 @@
   "keywords": [
     "deepseek-harness",
     "dsh-plugin",
-    "macos"
+    "macos",
+    "browser-automation",
+    "desktop-automation",
+    "safari",
+    "google-chrome"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "engines": {
     "node": ">=20"
   },
   "scripts": {
-    "test": "node --test"
+    "test": "node --test",
+    "demo:record": "node scripts/capture-demo-gif.mjs",
+    "prepublishOnly": "npm test"
   },
   "exports": {
     ".": "./lib/index.js",
@@ -35,7 +44,12 @@
     "README.md",
     "TUTORIAL.md",
     "TUTORIAL.zh-CN.md",
+    "COMPATIBILITY.md",
+    "CONTRIBUTING.md",
+    "SECURITY.md",
+    "CODE_OF_CONDUCT.md",
     "docs",
+    "scripts",
     "LICENSE"
   ],
   "dsh": {

@@ -1,8 +1,29 @@
 # DeepSeek Harness Mac Control
 
-> **Give the official DeepSeek DSH runtime real, approval-gated hands on your Mac.** Inspect browser tabs, open pages, switch apps, read accessible controls, type, click, press keys, and capture the screen through one small native plugin.
+> Give the official DeepSeek DSH runtime approval-gated control of your Mac browser and desktop.
 
-[中文完整教程](TUTORIAL.zh-CN.md) · [Complete English tutorial](TUTORIAL.md) · [Official DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) · [MIT License](LICENSE)
+![20-second local demo](docs/demo/dsh-mac-control-20s.gif)
+
+## Install
+
+```sh
+npm install --save-exact dsh-mac-control@0.1.0
+```
+
+For a source install, use a reviewed full commit hash:
+
+```sh
+npx @deepseek-ai/dsh plugin --profile web add --workspace-root \
+  "https://github.com/18126295767-cell/dsh-mac-control/archive/<reviewed-commit-sha>.tar.gz"
+```
+
+## Permissions
+
+Grant **Automation**, **Accessibility**, and **Screen Recording** to the process that actually starts DSH (Terminal, Node, or the native app). Safari and Google Chrome must be installed for browser actions.
+
+## Security boundary
+
+No HTTP server, browser proxy, credential storage, or secret arguments. Browser URLs are restricted to `http`/`https`; text, coordinates, and app targets are validated; browser and desktop mutations require approval by default. Screenshots are written to a local `0700` directory and are the caller's responsibility to remove.
 
 <p>
   <strong>Language / 语言 / 言語 / 언어:</strong>
@@ -20,22 +41,6 @@
   <a href="#繁體中文">繁體中文</a>
 </p>
 
-## Host UI / 宿主界面
-
-Official DSH Web runtime in an empty, isolated local session / 官方 DSH Web
-runtime 的隔离空白会话：
-
-![Official DeepSeek Harness Web runtime](docs/images/macos-dsh-home.png)
-
-The same `web` profile inside the independent native macOS shell / 同一个
-`web` profile 显示在独立原生 macOS 外壳中：
-
-![DeepSeek Harness native macOS shell](docs/images/macos-app-home.png)
-
-These lossless PNGs show the two supported host paths, not a fabricated plugin
-result. Tool registration is verified with `--dump-config` and `npm test`.
-[Image provenance and privacy record](docs/images/README.md).
-
 <details open>
 <summary id="简体中文"><strong>简体中文</strong></summary>
 
@@ -48,7 +53,7 @@ result. Tool registration is verified with `--dump-config` and `npm test`.
 1. **官方 DSH 路径：** 官方上游是 [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness)，官方 CLI 包是 `@deepseek-ai/dsh`。本项目已用 `0.1.0-rc.6` 和 `0.1.0-rc.7` 验证，下面固定使用 `0.1.0-rc.7`。
 2. **本地 macOS App 路径：** [deepseek-harness-macos-app](https://github.com/18126295767-cell/deepseek-harness-macos-app) 是独立社区 AppKit/WebKit 外壳，不是 DeepSeek AI 官方独立桌面产品。它启动同一个官方 `dsh web` 和 `~/.dsh/profiles/web`，所以插件只安装一次。
 
-**官方 DSH 快速安装：** 要求 macOS、Node.js 20+、Git 和 pnpm。把 `<reviewed-commit-sha>` 替换为你审阅过的完整 GitHub 提交哈希；本项目尚未发布到 npm，不能使用 `plugin add dsh-mac-control` 作为安装命令。
+**官方 DSH 快速安装：** 要求 macOS、Node.js 20+、Git 和 pnpm。npm 用户可固定安装 `dsh-mac-control@0.1.0`；从源码复现时，把 `<reviewed-commit-sha>` 替换为你审阅过的完整 GitHub 提交哈希。
 
 ```sh
 mkdir -p "$HOME/dsh-runtime"
@@ -82,7 +87,7 @@ Turn the official DeepSeek AI DSH runtime into a practical local Mac operator. `
 1. **Official DSH:** The official upstream is [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness), and the official CLI package is `@deepseek-ai/dsh`. This project was tested with `0.1.0-rc.6` and `0.1.0-rc.7`; the commands pin `0.1.0-rc.7`.
 2. **Local macOS App:** [deepseek-harness-macos-app](https://github.com/18126295767-cell/deepseek-harness-macos-app) is an independent community AppKit/WebKit shell, not an official standalone DeepSeek AI desktop product. It starts the same official `dsh web` and reads `~/.dsh/profiles/web`, so install the plugin once.
 
-**Official DSH quick start:** Requires macOS, Node.js 20+, Git, and pnpm. Replace `<reviewed-commit-sha>` with a full GitHub commit hash you reviewed. This project is not published to npm, so `plugin add dsh-mac-control` is not a valid install command.
+**Official DSH quick start:** Requires macOS, Node.js 20+, Git, and pnpm. Install the pinned npm package or replace `<reviewed-commit-sha>` with a full GitHub commit hash you reviewed for a source install.
 
 ```sh
 mkdir -p "$HOME/dsh-runtime"
@@ -217,6 +222,16 @@ macOS, Node.js 20+, Git और pnpm आवश्यक हैं। `--dump-conf
 [deepseek-harness-macos-app](https://github.com/18126295767-cell/deepseek-harness-macos-app) 是獨立且非官方的社群 AppKit/WebKit 外殼，顯示同一個 `dsh web` 與 `~/.dsh/profiles/web`，所以外掛只需安裝一次。需要 macOS、Node.js 20+、Git 與 pnpm；先用 `--dump-config` 確認 `mac-control`，再測試 `mac_browser: action=list_tabs, browser=Safari` 及 `mac_desktop: action=frontmost_app`，並把 Automation、Accessibility、Screen Recording 權限授予實際啟動程序。`deepseek-harness-ultimate` 是獨立的可選社群 profile，不是官方發行或 App 原始碼。完整步驟見[中文教程](TUTORIAL.zh-CN.md)。
 
 </details>
+
+## Host UI evidence / 宿主界面证据
+
+These lossless PNGs show the two supported host paths, not a fabricated plugin result. Tool registration is verified with `--dump-config` and `npm test`.
+
+![Official DeepSeek Harness Web runtime](docs/images/macos-dsh-home.png)
+
+![DeepSeek Harness native macOS shell](docs/images/macos-app-home.png)
+
+[Image provenance and privacy record](docs/images/README.md).
 
 ## Windows Companion / Windows 配套包
 

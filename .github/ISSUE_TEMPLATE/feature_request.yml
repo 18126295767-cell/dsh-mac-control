@@ -1,0 +1,26 @@
+name: Feature request
+description: Propose a focused improvement to the macOS plugin.
+title: "feature: "
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Explain the real workflow this would unblock. Do not propose passing credentials, cookies, or private browser data through tool arguments.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem and use case
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior and security boundary
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+

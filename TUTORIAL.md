@@ -9,6 +9,18 @@ The desktop shell is not a second plugin system or an official standalone DeepSe
 
 `deepseek-harness-ultimate` is an independent community-maintained optional profile. It is not an official DeepSeek AI release and it does not replace the `web` profile in this tutorial.
 
+The reproducible demo is a 20-second, local-only recording. It renders sanitized
+offline fixtures in an isolated Chrome profile and contains no account, cookie,
+token, current-browser tab, or private page:
+
+![20-second local control demo](docs/demo/dsh-mac-control-20s.gif)
+
+The tutorial also keeps three native-resolution stills for step-by-step references:
+
+![Tabs read](docs/demo/dsh-mac-control-tabs-read.png)
+![Safe button clicked](docs/demo/dsh-mac-control-button-clicked.png)
+![Screenshot captured](docs/demo/dsh-mac-control-screenshot.png)
+
 ## 0. Prerequisites
 
 - macOS. The plugin controls Safari, Google Chrome, `osascript`, Accessibility, and screenshot APIs.
@@ -43,7 +55,13 @@ node node_modules/@deepseek-ai/dsh/lib/bin.js plugin --profile web add --workspa
   "https://github.com/18126295767-cell/dsh-mac-control/archive/<reviewed-commit-sha>.tar.gz"
 ```
 
-Replace `<reviewed-commit-sha>` with the full commit hash shown on the GitHub commit you reviewed. `--workspace-root` is required because an official DSH profile is itself a pnpm workspace. This repository is not published to npm, so `plugin add dsh-mac-control` is not a valid reproducible install command.
+Replace `<reviewed-commit-sha>` with the full commit hash shown on the GitHub commit you reviewed. `--workspace-root` is required because an official DSH profile is itself a pnpm workspace. For the registry path, install the exact package first:
+
+```sh
+npm install --save-exact dsh-mac-control@0.1.0
+```
+
+The commit-pinned archive remains the preferred audit path when you want to inspect source before installation.
 
 Verify bundle recognition without starting a service:
 

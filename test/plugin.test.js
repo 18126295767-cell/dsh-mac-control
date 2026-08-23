@@ -17,6 +17,11 @@ async function pngSha256(relativePath) {
   return createHash('sha256').update(bytes).digest('hex')
 }
 
+async function gifSignature(relativePath) {
+  const bytes = await readFile(new URL(relativePath, import.meta.url))
+  return bytes.subarray(0, 6).toString('ascii')
+}
+
 function loadPlugin(config = {}) {
   const registered = []
   const events = []
@@ -35,6 +40,12 @@ test('registers the browser and desktop tools', () => {
   assert.equal(typeof registered[1].execute, 'function')
 })
 
+test('declares the reproducible v0.1.0 package and public install metadata', async () => {
+  assert.equal(packageJson.version, '0.1.0')
+  assert.equal(packageJson.publishConfig.access, 'public')
+  assert.match(await readFile(new URL('../README.md', import.meta.url), 'utf8'), /npm install --save-exact dsh-mac-control@0\.1\.0/)
+})
+
 test('rejects unsupported browser URLs before invoking macOS', async () => {
   const { registered } = loadPlugin()
   const browser = registered.find(tool => tool.name === 'mac_browser')
@@ -51,6 +62,13 @@ test('rejects invalid desktop coordinates before invoking macOS', async () => {
     desktop.execute({ action: 'click', app: 'Finder', x: -1, y: 10 }, {}),
     /x must be an integer from 0 to 20000/,
   )
+})
+
+test('uses CoreGraphics for coordinate clicks on current macOS releases', async () => {
+  const source = await readFile(new URL('../lib/index.js', import.meta.url), 'utf8')
+  assert.match(source, /CGEventCreateMouseEvent/)
+  assert.match(source, /CGEventPost/)
+  assert.doesNotMatch(source, /systemEvents\.click\(\{ at:/)
 })
 
 test('enables approval hooks by default and allows an explicit opt-out', () => {
@@ -151,6 +169,48 @@ test('ships reviewed Windows host screenshots with matching proof and guide link
     const contents = await readFile(new URL(`../${guide}`, import.meta.url), 'utf8')
     for (const file of expected.keys()) assert.match(contents, new RegExp(`docs/images/${file}`), guide)
   }
+})
+
+test('ships the local demo GIF and high-resolution stills', async () => {
+  const gif = await readFile(new URL('../docs/demo/dsh-mac-control-20s.gif', import.meta.url))
+  assert.ok(['GIF87a', 'GIF89a'].includes(await gifSignature('../docs/demo/dsh-mac-control-20s.gif')))
+  assert.ok(gif.length >= 50_000, 'the demo GIF should contain rendered application states, not an error page')
+  const stills = [
+    '../docs/demo/dsh-mac-control-tabs-read.png',
+    '../docs/demo/dsh-mac-control-button-clicked.png',
+    '../docs/demo/dsh-mac-control-screenshot.png',
+  ]
+  for (const still of stills) {
+    const bytes = await readFile(new URL(still, import.meta.url))
+    const dimensions = await pngDimensions(still)
+    assert.ok(dimensions.width >= 2000, `${still} should preserve native desktop width`)
+    assert.ok(dimensions.height >= 1000, `${still} should preserve native desktop height`)
+    assert.ok(bytes.length >= 50_000, `${still} should contain the rendered demo, not an error page`)
+  }
+  const record = await readFile(new URL('../docs/images/README.md', import.meta.url), 'utf8')
+  assert.match(record, new RegExp(createHash('sha256').update(gif).digest('hex')))
+  for (const name of ['dsh-mac-control-20s.gif', 'dsh-mac-control-tabs-read.png', 'dsh-mac-control-button-clicked.png', 'dsh-mac-control-screenshot.png']) {
+    assert.match(record, new RegExp(name.replaceAll('.', '\\.') ), name)
+  }
+  for (const still of stills) assert.match(record, new RegExp(await pngSha256(still)))
+  const packageFiles = packageJson.files.join('\n')
+  assert.match(packageFiles, /docs/)
+  assert.match(packageFiles, /scripts/)
+})
+
+test('ships community health and compatibility documentation', async () => {
+  const required = [
+    '../CONTRIBUTING.md', '../SECURITY.md', '../CODE_OF_CONDUCT.md', '../COMPATIBILITY.md',
+    '../.github/ISSUE_TEMPLATE/bug_report.yml', '../.github/ISSUE_TEMPLATE/feature_request.yml',
+    '../.github/ISSUE_TEMPLATE/config.yml', '../.github/pull_request_template.md',
+  ]
+  for (const file of required) assert.ok((await readFile(new URL(file, import.meta.url), 'utf8')).length > 40, file)
+  const matrix = await readFile(new URL('../COMPATIBILITY.md', import.meta.url), 'utf8')
+  assert.match(matrix, /macOS/)
+  assert.match(matrix, /Node\.js/)
+  assert.match(matrix, /0\.1\.0-rc\.7/)
+  assert.match(matrix, /Google Chrome/)
+  assert.match(matrix, /Safari/)
 })
 
 test('documents pnpm workspace-root handling for official DSH profiles', async () => {
